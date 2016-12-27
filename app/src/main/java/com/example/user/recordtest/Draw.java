@@ -4,6 +4,8 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.ConditionVariable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -19,6 +21,13 @@ public class Draw extends GLSurfaceView{
 
     public Draw(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setEGLContextClientVersion(2);
+        setEGLConfigChooser(GLRecorder.getEGLConfigChooser());
+        setRenderer(new Renderer());
+    }
+
+    public Draw(Context context ) {
+        super(context);
         setEGLContextClientVersion(2);
         setEGLConfigChooser(GLRecorder.getEGLConfigChooser());
         setRenderer(new Renderer());
@@ -49,7 +58,7 @@ public class Draw extends GLSurfaceView{
         public void onSurfaceChanged(GL10 gl, int width, int height){
 
             GLRecorder.init(width, height, mEGLConfig);//todo recorder
-            GLRecorder.setRecordOutputFile("/sdcard/breakout.mp4");
+            GLRecorder.setRecordOutputFile("/sdcard/TestRecord.mp4");
             GLES20.glViewport(0,0,width,height);
         }
 
@@ -64,14 +73,10 @@ public class Draw extends GLSurfaceView{
     public void touchEvent() {
 
         GLRecorder.startRecording();
+
     }
 
     public void onViewPause(ConditionVariable syncObj) {
-        /*
-         * We don't explicitly pause the game action, because the main game loop is being driven
-         * by the framework's calls to our onDrawFrame() callback.  If we were driving the updates
-         * ourselves we'd need to do something more.
-         */
 
         GLRecorder.stopRecording();
 

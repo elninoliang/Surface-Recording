@@ -21,9 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-/**
- * Created by kanedong on 14-10-10.
- */
 public class GLRecorder {
     private static final String TAG = "GLRecorder";
 

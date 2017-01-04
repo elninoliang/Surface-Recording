@@ -17,7 +17,7 @@ Make sure your APP project compile with Android API level 18 or above.
          mEGLConfig = config;
          // Some other code.
    }``
-6. Insert GLRecord.beginDraw() before your game begins drawing its frame, and GLRecord.endDraw() when your game has finished drawing its frame      
+6. Insert GLRecord.beginDraw() before your game begins drawing its frame, and GLRecord.endDraw() when your game has finished drawing its frame        
  `GLRecorder.beginDraw();
  draw();     // Draw game frame
  GLRecorder.endDraw();``
@@ -28,33 +28,29 @@ Make sure your APP project compile with Android API level 18 or above.
 
 **1. If API>19, got error "EGL_BAD_SURFACE"**
 
-This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:
-        case R.id.button_end:
+This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:     
+``        case R.id.button_end:
                 mDrawView.queueEvent(new Runnable() {
                    @Override
                    public void run() {
                        GLRecorder.stopRecording();
                    }});
-               break;
+               break;``
 
 **2.If the frame is wrong, like always flash**
 
-You could changed this code in GLRecorder.java
+You could changed this code in GLRecorder.java    
 
-'
-    if (mTick % 2 == 0) {
+``    if (mTick % 2 == 0) {
         ++mTick;
         return;
     }
-    ++mTick;
-'
+    ++mTick;``
 
 **3.If the matrix you want to change, like you want to change video size or you want to make different between display and saving**
 
-You could modify RecordMatrix and DislayMatrix,like add view chaned api.
+You could modify RecordMatrix and DislayMatrix,like add view chaned api.    
 
-'
-RecordMatrix = new float[16];
+`RecordMatrix = new float[16];
 Matrix.setIdentityM(RecordMatrix, 0);
-Matrix.scaleM(RecordMatrix,0,width_ratio,height_ratio,1.0f);
-'
+Matrix.scaleM(RecordMatrix,0,width_ratio,height_ratio,1.0f);``

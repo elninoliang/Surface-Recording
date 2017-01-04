@@ -36,8 +36,6 @@ Then add this code in your main.java
 
 This is module code:
 
-  `int flag = 0;
-
      for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
          if(!codecInfo.isEncoder())
              continue;
@@ -53,16 +51,9 @@ This is module code:
                          + " x " + heights.toString() + " @ " + framerates.toString() + " fps aligned to " + vidCaps.getWidthAlignment());
                           Log.e(TAG, "maxWidth: " + vidCaps.getSupportedWidths().getUpper());
                           Log.e(TAG, "maxHeight: " + vidCaps.getSupportedHeights().getUpper());
-
-                 if(flag == 0)
-                 {
-                     this.max_width = vidCaps.getSupportedWidths().getUpper();
-                     this.max_height = vidCaps.getSupportedHeights().getUpper();
-                 }
-                 flag++;
              }
          }
-     }`
+     }
 
 
 

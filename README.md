@@ -23,6 +23,18 @@ Make sure your APP project compile with Android API level 18 or above.
  GLRecorder.endDraw();``
 7. Start Recording and Stop it at appropriate time
 
+##The module code you can use
+**1.permission problem after API 21**
+After Android 5.0, you need to allocate android dynamic permission    
+Add this java to your project    
+*app\src\main\java\Permission\PermissionsUtil.java*     
+Then add this code in your main.java      
+`PermissionsUtil.checkAndRequestPermissions(this);`
+
+**2.Get max video saving size for different android device
+
+      This is module code
+
 
 ## Problem may be upset you
 

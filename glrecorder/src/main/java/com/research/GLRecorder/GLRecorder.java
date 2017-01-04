@@ -32,12 +32,13 @@ public class GLRecorder {
     private static FullFrameRect mFullScreen;
     private static int mOffscreenTexture;
     private static int mFramebuffer;
-    private static float[] mIdentityMatrix;
+    private static float[] DisplayMatrix;
+    private static float[] RecordMatrix;
 
     private static EGLSurface mWindowSurface;
     private static TextureMovieEncoder2 mVideoEncoder;
     private static WindowSurface mInputWindowSurface;
-    private static boolean mRecordingEnabled;
+    public static boolean mRecordingEnabled;
     public static EglCore mEglCore;
     private static File mOutputFile;
     // TODO: mActivity.findViewById(R.id.content).getSize
@@ -77,18 +78,18 @@ public class GLRecorder {
         }
     };
 
-    public static void init(int w, int h, EGLConfig currentConfig) {
+    public static void init(int w, int h, float width_ratio,float height_ratio, EGLConfig currentConfig) {
         //Activity activity = null;
 
 //        mActivityRef = new WeakReference<Activity>(act);//todo WeakReference
         mEglCore = new EglCore(currentConfig);
-        setup(w, h);
+        setup(w, h,width_ratio,height_ratio);
     }
 
     public static void beginDraw() {
         if (!mRecordingEnabled) return;
-        // Make sure the video fps rate was half of game fps(usually about 30fps)
-        if (mTick % 2 == 0) return;
+//        // Make sure the video fps rate was half of game fps(usually about 30fps)
+//        if (mTick % 2 == 0) return;
 
         // Render offscreen.
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFramebuffer);
@@ -97,23 +98,24 @@ public class GLRecorder {
 
     public static void endDraw() {
         if (!mRecordingEnabled) return;
-        if (mTick % 2 == 0) {
-            ++mTick;
-            return;
-        }
-        ++mTick;
+//        if (mTick % 2 == 0) {
+//            ++mTick;
+//            return;
+//        }
+//        ++mTick;
+
 
         // Blit to display.
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
         GlUtil.checkGlError("glBindFramebuffer");
-        mFullScreen.drawFrame(mOffscreenTexture, mIdentityMatrix);
+        mFullScreen.drawFrame(mOffscreenTexture, DisplayMatrix);//todo draw
 
         // Blit to encoder.
         mVideoEncoder.frameAvailableSoon();
         mInputWindowSurface.makeCurrent();
         GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);    // again, only really need to
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);     //  clear pixels outside rect
-        mFullScreen.drawFrame(mOffscreenTexture, mIdentityMatrix);
+        mFullScreen.drawFrame(mOffscreenTexture, RecordMatrix);
         mInputWindowSurface.setPresentationTime(System.nanoTime());    // TODO
         mInputWindowSurface.swapBuffers();
         mEglCore.makeCurrent(mWindowSurface);
@@ -153,17 +155,20 @@ public class GLRecorder {
         mRecordingEnabled = enabled;
     }
 
-    private static void setup(int w, int h) {
-        if (null != mIdentityMatrix) return;
+    private static void setup(int w, int h, float width_ratio, float height_ratio) {
+        if (null != DisplayMatrix) return;
         Log.d(TAG, "Setup GLRecorder");
 
         setRecordOutputFile(RECORD_OUTPUT_FILE);    // Set default output path.
 
-        mIdentityMatrix = new float[16];
-        Matrix.setIdentityM(mIdentityMatrix, 0);
+        RecordMatrix = new float[16];
+        Matrix.setIdentityM(RecordMatrix, 0);
+
+        DisplayMatrix = new float[16];
+        Matrix.setIdentityM(DisplayMatrix, 0);
+        Matrix.scaleM(DisplayMatrix,0,width_ratio,height_ratio,1.0f);
 
         mWindowSurface = mEglCore.getCurrentSurface();
-
         // Used for blitting texture to FBO.
         mFullScreen = new FullFrameRect(
                 new Texture2dProgram(Texture2dProgram.ProgramType.TEXTURE_2D));
@@ -198,6 +203,43 @@ public class GLRecorder {
      * surface for encoder input.
      */
     private static void startEncoder() {
+
+            //Get max width and height
+//    ///////////////////////////////////////////////////////////////////////////////////////////////
+//
+//        int flag = 0;
+//
+//        //todo capabilities code
+//        for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
+//            if(!codecInfo.isEncoder())
+//                continue;
+//            String[] types = codecInfo.getSupportedTypes();
+//            for(int j=0;j<types.length;j++){
+//                if("video/avc".equalsIgnoreCase(types[j])){
+//                    MediaCodecInfo.CodecCapabilities codecCaps = codecInfo.getCapabilitiesForType("video/avc");
+//                    MediaCodecInfo.VideoCapabilities vidCaps = codecCaps.getVideoCapabilities();
+//                    Range<Integer> framerates = vidCaps.getSupportedFrameRates();
+//                    Range<Integer> widths = vidCaps.getSupportedWidths();
+//                    Range<Integer> heights = vidCaps.getSupportedHeights();
+//                    Log.d("H.264Encoder", "Found encoder with\n" + widths.toString()
+//                            + " x " + heights.toString() + " @ " + framerates.toString() + " fps aligned to " + vidCaps.getWidthAlignment());
+//                    Log.e(TAG, "type_length: " + types.length);
+//                    Log.e(TAG, "maxWidth: " + vidCaps.getSupportedWidths().getUpper());
+//                    Log.e(TAG, "maxHeight: " + vidCaps.getSupportedHeights().getUpper());
+//
+//                    if(flag == 0)
+//                    {
+//                        mWindowWidth = vidCaps.getSupportedWidths().getUpper();
+//                        mWindowHeight = vidCaps.getSupportedHeights().getUpper();
+//                        flag++;
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//    ///////////////////////////////////////////////////////////////////////////////////////////////
+
         Log.d(TAG, "starting to record");
         // Record video size same as surface, regardless of the window dimensions.
         // The encoder may explode if given "strange" dimensions, e.g. a width that is not a multiple
@@ -205,8 +247,6 @@ public class GLRecorder {
         final int BIT_RATE = 4000000;   // 4Mbps
         final int VIDEO_WIDTH = mWindowWidth;
         final int VIDEO_HEIGHT = mWindowHeight;
-//        final int VIDEO_WIDTH = 600;
-//        final int VIDEO_HEIGHT = 800;
 
         //todo capabilities code
 //        for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){

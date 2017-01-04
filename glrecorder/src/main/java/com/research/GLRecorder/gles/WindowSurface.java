@@ -38,6 +38,7 @@ public class WindowSurface extends EglSurfaceBase {
      */
     public WindowSurface(EglCore eglCore, Surface surface, boolean releaseSurface) {
         super(eglCore);
+//        createOffscreenSurface();
         createWindowSurface(surface);
         mSurface = surface;
         mReleaseSurface = releaseSurface;

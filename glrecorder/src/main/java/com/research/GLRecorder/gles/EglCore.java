@@ -15,7 +15,7 @@ public class EglCore {
     private static final String TAG = "EglCore";
     private EGL10 mEgl;
     private final EGLContext mEGLContext;
-    private EGLDisplay mEGLDisplay;
+//    private EGLDisplay mEGLDisplay;
     private EGLConfig mEGLConfig;
 
     public EglCore() {
@@ -24,21 +24,21 @@ public class EglCore {
 
     public EglCore(EGLConfig config) {
         mEgl = (EGL10) EGLContext.getEGL();
-        mEGLDisplay = mEgl.eglGetCurrentDisplay();
+//        mEGLDisplay = mEgl.eglGetCurrentDisplay();
         mEGLContext = mEgl.eglGetCurrentContext();
         if (null != config) {
             mEGLConfig = config;
         }
-        else {
-            int[] result = new int[1];
-            mEgl.eglQueryContext(mEGLDisplay, mEGLContext, EGL11.EGL_CONFIG_ID, result);
-            EGLConfig[] configs = new EGLConfig[1];
-            int[] num_config = new int[1];
-            mEgl.eglChooseConfig(mEGLDisplay,
-                    new int[] { EGL11.EGL_CONFIG_ID, result[0]},
-                    configs, 1, num_config);
-            mEGLConfig = configs[0];
-        }
+//        else {
+//            int[] result = new int[1];
+//            mEgl.eglQueryContext(mEGLDisplay, mEGLContext, EGL11.EGL_CONFIG_ID, result);
+//            EGLConfig[] configs = new EGLConfig[1];
+//            int[] num_config = new int[1];
+//            mEgl.eglChooseConfig(mEGLDisplay,
+//                    new int[] { EGL11.EGL_CONFIG_ID, result[0]},
+//                    configs, 1, num_config);
+//            mEGLConfig = configs[0];
+//        }
     }
 
     public GL getGL() {

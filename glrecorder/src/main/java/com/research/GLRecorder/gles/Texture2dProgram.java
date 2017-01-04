@@ -311,7 +311,7 @@ public class Texture2dProgram {
 
         // Connect vertexBuffer to "aPosition".
         GLES20.glVertexAttribPointer(maPositionLoc, coordsPerVertex,
-            GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
+            GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);//todo
         GlUtil.checkGlError("glVertexAttribPointer");
 
         // Enable the "aTextureCoord" vertex attribute.

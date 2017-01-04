@@ -17,8 +17,7 @@ Make sure your APP project compile with Android API level 18 or above.
          mEGLConfig = config;
          // Some other code.
    }``
-6. Insert GLRecord.beginDraw() before your game begins drawing its frame, and GLRecord.endDraw() when your game has finished drawing its frame
-
+6. Insert GLRecord.beginDraw() before your game begins drawing its frame, and GLRecord.endDraw() when your game has finished drawing its frame      
  `GLRecorder.beginDraw();
  draw();     // Draw game frame
  GLRecorder.endDraw();``
@@ -30,15 +29,14 @@ Make sure your APP project compile with Android API level 18 or above.
 **1. If API>19, got error "EGL_BAD_SURFACE"**
 
 This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:
-
-case R.id.button_end:
-        mDrawView.queueEvent(new Runnable() {
-           @Override
-           public void run() {
-               GLRecorder.stopRecording();
-           }});
-       break;
-
+        `case R.id.button_end:
+                mDrawView.queueEvent(new Runnable() {
+                   @Override
+                   public void run() {
+                       GLRecorder.stopRecording();
+                   }});
+               break;`
+       
 **2.If the frame is wrong, like always flash**
 
 You could changed this code in GLRecorder.java

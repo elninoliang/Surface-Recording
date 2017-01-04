@@ -11,10 +11,9 @@ Make sure your APP project compile with Android API level 18 or above.
 3. Import import com.research.GLRecorder.GLRecorder in your GLSurface Render.
 4. Set EGLConfigChooser Provider by GLRecorder before setRender of GLSurfaceView
 
-'''
-  setEGLConfigChooser(GLRecorder.getEGLConfigChooser());
-  setRenderer(YourRender);
-'''
+'setEGLConfigChooser(GLRecorder.getEGLConfigChooser());'  
+'setRenderer(YourRender);'  
+
 
 5. Initialize GLRecorder at Surface size determine like onSurfaceCreated
 

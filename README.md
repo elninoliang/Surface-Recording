@@ -2,8 +2,10 @@
 =============
 This is a record video sample
 Make sure your APP project compile with Android API level 18 or above.
+================
 
 ##Usage
+
 1.Add this project as a library for your project.
 2.Add below permissions in your AndroidManifest.xml
 3.Import import com.research.GLRecorder.GLRecorder in your GLSurface Render.
@@ -26,11 +28,13 @@ draw();     // Draw game frame
 GLRecorder.endDraw();
 '
 7.Start Recording and Stop it at appropriate time
-========================
+
 
 ##Problem may be upset you
+
 **1.If API>19, got error "EGL_BAD_SURFACE"
-***
+*****************************************
+
 This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:
 '
 case R.id.button_end:
@@ -43,7 +47,8 @@ case R.id.button_end:
       break;
 '
 **2.If the frame is wrong, like always flash
-***
+**************************
+
 You could changed this code in GLRecorder.java
 '
     if (mTick % 2 == 0) {
@@ -53,7 +58,8 @@ You could changed this code in GLRecorder.java
     ++mTick;
 '
 **3.If the matrix you want to change, like you want to change video size or you want to make different between display and saving
-***
+*****************
+
 You could modify RecordMatrix and DislayMatrix,like add view chaned api.
 '
 RecordMatrix = new float[16];

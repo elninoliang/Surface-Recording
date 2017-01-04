@@ -10,23 +10,29 @@ Make sure your APP project compile with Android API level 18 or above.
 2. Add below permissions in your AndroidManifest.xml
 3. Import import com.research.GLRecorder.GLRecorder in your GLSurface Render.
 4. Set EGLConfigChooser Provider by GLRecorder before setRender of GLSurfaceView
+
 '
  setEGLConfigChooser(GLRecorder.getEGLConfigChooser());
  setRenderer(YourRender);
 '
+
 5. Initialize GLRecorder at Surface size determine like onSurfaceCreated
+
 '
  public void onSurfaceCreated(GL10 unused, EGLConfig config) {
          mEGLConfig = config;
          // Some other code.
      }
 '
+
 6. Insert GLRecord.beginDraw() before your game begins drawing its frame, and GLRecord.endDraw() when your game has finished drawing its frame
+
 '
  GLRecorder.beginDraw();
  draw();     // Draw game frame
  GLRecorder.endDraw();
 '
+
 7. Start Recording and Stop it at appropriate time
 
 

@@ -36,9 +36,9 @@ Then add this code in your main.java
 
 This is module code:
 
-  int flag = 0;
+  `int flag = 0;
 
-``     for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
+     for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
          if(!codecInfo.isEncoder())
              continue;
          String[] types = codecInfo.getSupportedTypes();
@@ -62,8 +62,8 @@ This is module code:
                  flag++;
              }
          }
-     }
-``
+     }`
+
 
 
 ## Problem may be upset you

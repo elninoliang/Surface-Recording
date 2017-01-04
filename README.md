@@ -9,11 +9,10 @@ Make sure your APP project compile with Android API level 18 or above.
 1. Add this project as a library for your project.
 2. Add below permissions in your AndroidManifest.xml
 3. Import import com.research.GLRecorder.GLRecorder in your GLSurface Render.
-4. Set EGLConfigChooser Provider by GLRecorder before setRender of GLSurfaceView
+4. Set EGLConfigChooser Provider by GLRecorder before setRender of GLSurfaceView    
  `  setEGLConfigChooser(GLRecorder.getEGLConfigChooser());  
     setRenderer(YourRender);`
-5. Initialize GLRecorder at Surface size determine like onSurfaceCreated
-
+5. Initialize GLRecorder at Surface size determine like onSurfaceCreated    
 `` public void onSurfaceCreated(GL10 unused, EGLConfig config) {
          mEGLConfig = config;
          // Some other code.
@@ -32,15 +31,13 @@ Make sure your APP project compile with Android API level 18 or above.
 
 This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:
 
- '
- case R.id.button_end:
+case R.id.button_end:
         mDrawView.queueEvent(new Runnable() {
            @Override
            public void run() {
                GLRecorder.stopRecording();
            }});
        break;
- '
 
 **2.If the frame is wrong, like always flash**
 

@@ -38,7 +38,7 @@ This is module code:
 
   int flag = 0;
 
-     for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
+``     for(MediaCodecInfo codecInfo : new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos()){
          if(!codecInfo.isEncoder())
              continue;
          String[] types = codecInfo.getSupportedTypes();
@@ -63,8 +63,8 @@ This is module code:
              }
          }
      }
+``
 
-         
 
 ## Problem may be upset you
 

@@ -29,23 +29,23 @@ Make sure your APP project compile with Android API level 18 or above.
 **1. If API>19, got error "EGL_BAD_SURFACE"**
 
 This is the UI thread and OPENGL thread getting confict, so you need change UI thread like:     
-``        case R.id.button_end:
-                mDrawView.queueEvent(new Runnable() {
-                   @Override
-                   public void run() {
-                       GLRecorder.stopRecording();
-                   }});
-               break;``
+``case R.id.button_end:
+  mDrawView.queueEvent(new Runnable() {
+   @Override
+   public void run() {
+       GLRecorder.stopRecording();
+   }});
+break;``
 
 **2.If the frame is wrong, like always flash**
 
 You could changed this code in GLRecorder.java    
 
-``    if (mTick % 2 == 0) {
-        ++mTick;
-        return;
-    }
-    ++mTick;``
+``if (mTick % 2 == 0) {
+    ++mTick;
+    return;
+}
+++mTick;``
 
 **3.If the matrix you want to change, like you want to change video size or you want to make different between display and saving**
 

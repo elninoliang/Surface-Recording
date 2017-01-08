@@ -1,11 +1,14 @@
 package com.example.user.recordtest;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.ConditionVariable;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Range;
@@ -14,6 +17,12 @@ import android.view.MotionEvent;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import com.research.GLRecorder.*;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.Buffer;
 
 import static android.content.ContentValues.TAG;
 
@@ -28,6 +37,8 @@ public class Draw extends GLSurfaceView{
     private int phone_width;
     private int max_width;
     private int max_height;
+
+    private int times = 0;
 
     private void drawcolor()//draw picture in screen
     {
@@ -114,6 +125,7 @@ public class Draw extends GLSurfaceView{
             drawcolor();
 
             GLRecorder.endDraw();
+
         }
 
         public void onSurfaceChanged(GL10 gl, int width, int height){
@@ -134,7 +146,7 @@ public class Draw extends GLSurfaceView{
             Log.e(TAG, "height_ratio: " + height_ratio);
 
             GLRecorder.init(max_width, max_height, width_ratio,height_ratio, mEGLConfig);//todo recorder
-            GLRecorder.setRecordOutputFile("/sdcard/record.mp4");
+            GLRecorder.setRecordOutputFile("/sdcard/Record.mp4");
 
 
         }
@@ -190,5 +202,6 @@ public class Draw extends GLSurfaceView{
 
         return true;
     }
+
 
 }

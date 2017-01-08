@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Draw mDrawView;
 
+    SurfaceView surfaceView;
+    SurfaceHolder surfaceHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_start).setOnClickListener(this);
         findViewById(R.id.button_end).setOnClickListener(this);
         mDrawView = (Draw)findViewById(R.id.glContent);
-
         ////////////////////////////////////////////////////
 
-    }
 
+    }
 
     @Override
     public void onClick(View view) {

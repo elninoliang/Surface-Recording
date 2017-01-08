@@ -5,16 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-       <com.example.user.recordtest.Draw
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/glContent"
-        android:layout_alignParentBottom="true" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/linearLayout">
 
     </LinearLayout>
 
@@ -37,5 +32,20 @@
         android:layout_alignBottom="@+id/button_end"
         android:layout_alignParentStart="true"
         android:layout_marginStart="71dp" />
+
+
+    <com.example.user.recordtest.Draw
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/glContent"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/linearLayout" />
+
+    <SurfaceView
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:id="@+id/surfaceView"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
